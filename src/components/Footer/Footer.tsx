@@ -20,9 +20,9 @@ export const Footer: React.FC<Props> = props => {
       <nav className="filter" data-cy="Filter">
         <a
           href="#/"
-          className={cn('filter__link', { selected: filter === Filters.ALL })}
+          className={cn('filter__link', { selected: filter === Filters.All })}
           data-cy="FilterLinkAll"
-          onClick={() => setFilter(Filters.ALL)}
+          onClick={() => setFilter(Filters.All)}
         >
           All
         </a>
@@ -30,10 +30,10 @@ export const Footer: React.FC<Props> = props => {
         <a
           href="#/active"
           className={cn('filter__link', {
-            selected: filter === Filters.ACTIVE,
+            selected: filter === Filters.Active,
           })}
           data-cy="FilterLinkActive"
-          onClick={() => setFilter(Filters.ACTIVE)}
+          onClick={() => setFilter(Filters.Active)}
         >
           Active
         </a>
@@ -41,10 +41,10 @@ export const Footer: React.FC<Props> = props => {
         <a
           href="#/completed"
           className={cn('filter__link', {
-            selected: filter === Filters.COMPLETED,
+            selected: filter === Filters.Completed,
           })}
           data-cy="FilterLinkCompleted"
-          onClick={() => setFilter(Filters.COMPLETED)}
+          onClick={() => setFilter(Filters.Completed)}
         >
           Completed
         </a>

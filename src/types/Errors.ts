@@ -1,4 +1,5 @@
 export enum ErrorMessages {
+  Empty = '',
   EmptyTitle = 'Title should not be empty',
   UnableToAdd = 'Unable to add a todo',
   UnableToDelete = 'Unable to delete a todo',

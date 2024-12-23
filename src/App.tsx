@@ -13,28 +13,38 @@ import { Filters } from './types/Filters';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [filter, setFilter] = useState<Filters>(Filters.ALL);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [filter, setFilter] = useState<Filters>(Filters.All);
+  const [errorMessage, setErrorMessage] = useState<ErrorMessages>(
+    ErrorMessages.Empty,
+  );
 
   useEffect(() => {
     getTodos()
       .then(setTodos)
       .catch(() => {
         setErrorMessage(ErrorMessages.UnableToLoad);
-        setTimeout(() => setErrorMessage(''), 3000);
+        const timerId = setTimeout(
+          () => setErrorMessage(ErrorMessages.Empty),
+          3000,
+        );
+
+        return () => {
+          clearTimeout(timerId);
+        };
       });
   }, []);
 
   const filteredTodos = todos.filter(todo => {
-    if (filter === Filters.COMPLETED) {
-      return todo.completed;
-    }
+    switch (filter) {
+      case Filters.Completed:
+        return todo.completed;
 
-    if (filter === Filters.ACTIVE) {
-      return !todo.completed;
-    }
+      case Filters.Active:
+        return !todo.completed;
 
-    return true;
+      default:
+        return true;
+    }
   });
 
   const activeTodosCount = todos.filter(todo => !todo.completed).length;
@@ -49,18 +59,20 @@ export const App: React.FC = () => {
 
       <div className="todoapp__content">
         <Header />
-        {todos.length > 0 && <TodoList todos={filteredTodos} />}
-        {todos.length > 0 && (
-          <Footer
-            activeTodosCount={activeTodosCount}
-            setFilter={setFilter}
-            filter={filter}
-          />
+        {!!todos.length && (
+          <>
+            <TodoList todos={filteredTodos} />
+            <Footer
+              activeTodosCount={activeTodosCount}
+              setFilter={setFilter}
+              filter={filter}
+            />
+          </>
         )}
       </div>
       <Errors
         errorMessage={errorMessage}
-        clearError={() => setErrorMessage('')}
+        clearError={() => setErrorMessage(ErrorMessages.Empty)}
       />
     </div>
   );
